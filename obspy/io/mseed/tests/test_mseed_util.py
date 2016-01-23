@@ -42,7 +42,7 @@ class MSEEDUtilTestCase(unittest.TestCase):
         self.nperr = np.geterr()
         np.seterr(all='ignore')
 
-    def test_convertDatetime(self):
+    def test_convert_datetime(self):
         """
         Tests all time conversion methods.
         """
@@ -76,7 +76,7 @@ class MSEEDUtilTestCase(unittest.TestCase):
         self.assertEqual(timestring, util._convert_datetime_to_MSTime(
             util._convert_MSTime_to_datetime(timestring)))
 
-    def test_getRecordInformation(self):
+    def test_get_record_information(self):
         """
         Tests the util._get_ms_file_info method with known values.
         """
@@ -117,7 +117,7 @@ class MSEEDUtilTestCase(unittest.TestCase):
         self.assertEqual(info['number_of_records'], 2)
         self.assertEqual(info['excess_bytes'], 0)
 
-    def test_getDataQuality(self):
+    def test_get_data_quality(self):
         """
         This test reads a self-made Mini-SEED file with set Data Quality Bits.
         A real test file would be better as this test tests a file that was
@@ -314,7 +314,7 @@ class MSEEDUtilTestCase(unittest.TestCase):
             "end_time_series": 0,
             "clock_locked": 11258})
 
-    def test_getStartAndEndTime(self):
+    def test_get_start_and_end_time(self):
         """
         Tests getting the start- and endtime of a file.
 
@@ -331,7 +331,7 @@ class MSEEDUtilTestCase(unittest.TestCase):
             self.assertEqual(start, stream[0].stats.starttime)
             self.assertEqual(end, stream[0].stats.endtime)
 
-    def test_getTimingQuality(self):
+    def test_get_timing_quality(self):
         """
         This test reads a self-made Mini-SEED file with Timing Quality
         information in Blockette 1001. A real test file would be better.
@@ -375,7 +375,7 @@ class MSEEDUtilTestCase(unittest.TestCase):
                                 data_quality_flags=False)
         self.assertEqual(result["timing_quality"], {})
 
-    def test_unpackSteim1(self):
+    def test_unpack_STEIM1(self):
         """
         Test decompression of Steim1 strings. Remove 64 Bytes of header
         by hand, see SEEDManual_V2.4.pdf page 100.
@@ -390,7 +390,7 @@ class MSEEDUtilTestCase(unittest.TestCase):
         data_record = _read_mseed(steim1_file)[0].data
         np.testing.assert_array_equal(data, data_record)
 
-    def test_unpackSteim2(self):
+    def test_unpack_STEIM2(self):
         """
         Test decompression of Steim2 strings. Remove 128 Bytes of header
         by hand, see SEEDManual_V2.4.pdf page 100.
@@ -490,11 +490,10 @@ class MSEEDUtilTestCase(unittest.TestCase):
             st_before[0].stats.starttime -= 2.2222
             self.assertEqual(st_before, st_after)
 
-    def test_checkFlagValue(self):
+    def test_check_flag_value(self):
         """
         Test case for obspy.io.mseed.util._check_flag_value
         """
-
         # Valid value for a boolean flag
         corrected_flag = util._check_flag_value(True)
         self.assertTrue(isinstance(corrected_flag, bool))
@@ -679,7 +678,7 @@ class MSEEDUtilTestCase(unittest.TestCase):
                                    UTCDateTime("2009-12-25T06:00:00.0")]}
         self.assertRaises(ValueError, util._check_flag_value, flag_value)
 
-    def test_searchFlagInBlockette(self):
+    def test_search_flag_in_blockette(self):
         """
         Test case for obspy.io.mseed.util._search_flag_in_blockette
         """
@@ -738,11 +737,10 @@ class MSEEDUtilTestCase(unittest.TestCase):
                                                             32, 201, 4, 4)
                 self.assertIs(read_bytes, None)
 
-    def test_convertFlagsToRawByte(self):
+    def test_convert_flags_to_raw_byte(self):
         """
         Test case for obspy.io.mseed.util._convert_flags_to_raw_byte
         """
-
         recstart = UTCDateTime("2009-12-25T06:00:00.0")
         recend = UTCDateTime("2009-12-26T06:00:00.0")
         user_flags = {
@@ -808,9 +806,7 @@ class MSEEDUtilTestCase(unittest.TestCase):
         """
         Test case for obspy.io.mseed.util.set_flags_in_fixed_headers
         """
-
         # Write mseed file with several traces
-
         npts = 1000
         np.random.seed(42)  # make test reproducible
         data = np.random.randint(-1000, 1000, npts).astype(np.int32)
@@ -986,7 +982,6 @@ class MSEEDUtilTestCase(unittest.TestCase):
         :type reclen: int
         :param reclen: record length across the file
         """
-
         prev_pos = file_bfr.tell()
         file_bfr.seek(0, os.SEEK_END)
         filesize = file_bfr.tell()
