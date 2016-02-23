@@ -83,7 +83,11 @@ class MSEEDMetadata(object):
             # requested time span.
             if not st:
                 continue
-            self.data.extend(st.traces)
+            
+            for tr in st:
+                if(tr.stats.npts != 0):
+                    self.data.extend([tr])
+                    
             self.files.append(file)
 
         if not self.data:
@@ -146,6 +150,7 @@ class MSEEDMetadata(object):
         m['sta'] = stats.station
         m['loc'] = stats.location
         m['cha'] = stats.channel
+        m['mseed_id'] = self.data[0].id
         m['quality'] = stats.mseed.dataquality
         m['files'] = self.files
 
